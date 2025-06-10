@@ -1,8 +1,8 @@
 <template>
   <div class="h-screen overflow-hidden flex flex-col">
     <!-- Topbar fixa -->
-    <header class="h-16 bg-gray-900 text-white flex items-center px-4 fixed top-0 left-0 right-0 z-10">
-      <h1 class="text-lg font-bold">Meu Projeto</h1>
+    <header class="h-16 text-white bg-gray-800 flex items-center px-4 fixed top-0 left-0 right-0 z-10">
+      <h1 class="text-lg font-bold ml-15">Help Desk</h1>
     </header>
 
     <!-- Container abaixo da topbar -->

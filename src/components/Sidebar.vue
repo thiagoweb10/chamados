@@ -6,18 +6,18 @@
     @mouseleave="collapsed = true"
   >
     <div class="mb-4 text-sm text-center">
-      {{ collapsed ? '☰' : 'Menu' }}
+      {{ collapsed ? '☰' : '' }}
     </div>
     <nav>
-      <ul>
-  <li
-    v-for="item in menuItems"
-    :key="item.label"
-    class="flex items-center"
-    :class="[
-      collapsed ? 'justify-center mb-6' : 'space-x-2 mb-2'
-    ]"
-  >
+    <ul>
+      <li
+        v-for="item in menuItems"
+        :key="item.label"
+        class="flex items-center"
+        :class="[
+          collapsed ? 'justify-center mb-6' : 'space-x-2 mb-2'
+        ]"
+      >
     <component :is="item.icon" class="w-5 h-5" />
     <router-link
       v-if="!collapsed"
@@ -35,13 +35,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Home, Tickets, Users, Settings } from 'lucide-vue-next'
+import { Home, Tickets, Users, Settings, ChartBarBig } from 'lucide-vue-next'
 
 const collapsed = ref(true)
 
 const menuItems = [
   { route: '/',         label: 'Dashboard', icon: Home },
   { route: '/tickets',  label: 'Tickets',   icon: Tickets },
+  { route: '/categorias',  label: 'Categorias',   icon: ChartBarBig },
   { route: '/users',    label: 'Usuários',  icon: Users },
   { route: '/settings', label: 'Configurações', icon: Settings },
 ]
