@@ -30,7 +30,7 @@ import { ref, onMounted } from 'vue'
 import { useAlert }     from '@/utils/alert.js'
 import  CategoriaList   from '../components/categoria/Listagem.vue'
 import  Form            from '@/components/categoria/Form.vue'
-import { list, create, destroy } from '@/api/CategoryApi.js'
+import { getCategory, createCategory, deleteCategory } from '@/api/CategoryApi.js'
 
 const categorias = ref([])
 const mostrarModal = ref(false)
@@ -42,7 +42,7 @@ const fecharModal = () => { mostrarModal.value = false }
 
 const novaCategoria = async (form) => {
   try {
-    await create(form)
+    await createCategory(form)
     await listaCategorias()
     await fecharModal()
 
@@ -61,7 +61,7 @@ const deletaCategoria = async (categoria) => {
     );
 
     if (result.isConfirmed) {
-      await destroy(categoria.id);
+      await deleteCategory(categoria.id);
       await listaCategorias();
       success('Item excluído com sucesso!');
     } else {
@@ -85,7 +85,7 @@ const listaCategorias = async (categoriaFiltro) => {
 
     console.log('valor do indice nome:'+params.name);
 
-    const response = await list(params)
+    const response = await getCategory(params)
 
     console.log(response);
     
