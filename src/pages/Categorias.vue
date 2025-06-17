@@ -1,26 +1,25 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold">Categorias</h1>
-    <br />
-    
-    <button @click="abrirModal" class="bg-green-600 text-white px-4 py-2 rounded">
-      Novo Cadastro
-    </button>
+    <div class="flex items-center justify-between p-6  mb-0 pb-0">
+      <h1 class="text-2xl font-bold">Categoria</h1>
+      <button @click="abrirModal()" class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-500">
+        Nova Categoria
+      </button>
+    </div>
+     <div class="p-6">
+      <CategoriaList 
+        :categorias="categorias" 
+        @atualizar="listaCategorias"
+        @excluir="deletaCategoria"
+      />
 
-    <br />
-
-    <CategoriaList 
-      :categorias="categorias" 
-      @atualizar="listaCategorias"
-      @excluir="deletaCategoria"
-    />
-
-    <Form
-      :show="mostrarModal"
-      title="Cadastrar Nova Categoria"
-      @fechar="fecharModal"
-      @salvar="novaCategoria"
-    />
+      <Form
+        :show="mostrarModal"
+        title="Cadastrar Nova Categoria"
+        @fechar="fecharModal"
+        @salvar="novaCategoria"
+      />
+    </div>
   </div>
 </template>
 
@@ -70,7 +69,7 @@ const deletaCategoria = async (categoria) => {
 
   } catch (e) {
     console.error(e);
-    error('Erro ao deletar registro: ' + e);
+    error(e.response.data.message);
   }
 }
 
@@ -81,14 +80,7 @@ const listaCategorias = async (categoriaFiltro) => {
       name : categoriaFiltro ?? null
     }
 
-     console.log('valor da variavel categoriaFiltro:'+categoriaFiltro);
-
-    console.log('valor do indice nome:'+params.name);
-
     const response = await getCategory(params)
-
-    console.log(response);
-    
     categorias.value = response.data.data.data
   } catch (e) {
     console.error('Erro ao carregar categorias:', e)
