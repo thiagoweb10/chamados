@@ -36,8 +36,6 @@ export const useAuthStore = defineStore('auth', {
                 
                 const response = await getMe()
                 this.user = response.data.data
-                console.log('data',response.data)
-                console.log('user',this.user)
             } catch (e) {
                 console.error(e)
                 this.logout()
