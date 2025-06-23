@@ -1,4 +1,4 @@
-import api from "./axios";
+import api from "./Axios";
 
 export const getCategory = (param) => api.get('categories',{
     params: param

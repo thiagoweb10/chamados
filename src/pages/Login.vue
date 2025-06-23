@@ -13,7 +13,7 @@
         <div>
           <label for="email" class="block text-sm font-medium">E-mail</label>
           <input
-            v-model="email"
+            v-model="credentials.email"
             type="email"
             id="email"
             required
@@ -25,7 +25,7 @@
         <div>
           <label for="password" class="block text-sm font-medium">Senha</label>
           <input
-            v-model="password"
+            v-model="credentials.password"
             type="password"
             id="password"
             required
@@ -37,9 +37,16 @@
         <div>
           <button
             type="submit"
-            class="w-full bg-gray-800  hover:bg-gray-600  transition duration-300 text-white py-3 rounded-lg font-semibold"
+            :disabled="loading"
+            class="w-full bg-gray-800 hover:bg-gray-600 transition duration-300 text-white py-3 rounded-lg font-semibold flex justify-center items-center gap-2"
           >
-            Entrar
+            <span v-if="loading">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 01-8 8z"></path>
+              </svg>
+            </span>
+            <span>{{ loading ? 'Aguarde...' : 'Entrar' }}</span>
           </button>
         </div>
       </form>
@@ -48,20 +55,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 import { useAlert } from '@/utils/alert.js'
 
 const { error } = useAlert()
 
-const email = ref('')
-const password = ref('')
+const credentials = reactive({
+	email:'',
+	password:''
+})
 
-const handleLogin = () => {
+const auth = useAuthStore();
+const router = useRouter();
+const loading = ref(false);
 
+const handleLogin = async () => {
 
-  
-  error('Usuario ou senha invalidos!')
-  console.log('Login:', email.value, password.value)
+	loading.value = true;
+
+	try {
+		await auth.login(credentials);
+		router.push('/dashboard');
+	} catch (e) {
+		console.log('Erro durante o login:', e.response.data.error);
+		error(e.response.data.error)
+	} finally {
+		loading.value = false;
+	}
 }
 </script>
 

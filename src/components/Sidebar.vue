@@ -20,6 +20,7 @@
             {{ item.label }}
           </router-link>
         </li>
+        
       </ul>
     </nav>
   </aside>
@@ -42,12 +43,11 @@ const menuItemClass = computed(() => [
 ])
 
 const menuItems = [
-  { route: '/', label: 'Dashboard', icon: Home },
+  { route: '/dashboard', label: 'Dashboard', icon: Home },
   { route: '/tickets', label: 'Tickets', icon: Tickets },
   { route: '/categorias', label: 'Categorias', icon: ChartBarBig },
   { route: '/users', label: 'Usuários', icon: Users },
-  { route: '/settings', label: 'Configurações', icon: Settings },
-  { route: '/logout', label: 'Sair', icon: LogOut }
+  { route: '/settings', label: 'Configurações', icon: Settings }
 ]
 </script>
 

@@ -23,6 +23,15 @@ export const useAlert = () => {
     })
   }
 
+  const warning = (msg = 'Algo deu errado') => {
+    toast.fire({
+      icon: 'warning',
+      title: msg,
+      background: '#FFA500',
+      color: '#FFFFFF',  
+    })
+  }
+
   const confirm = async (title = 'Tem certeza?', text = '') => {
     return Swal.fire({
       title,
@@ -36,5 +45,5 @@ export const useAlert = () => {
     })
   }
 
-  return { success, error, confirm }
+  return { success, error, confirm, warning}
 }
