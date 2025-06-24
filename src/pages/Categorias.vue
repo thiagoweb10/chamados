@@ -6,19 +6,25 @@
         Nova Categoria
       </button>
     </div>
-     <div class="p-6">
-      <CategoriaList 
-        :categorias="categorias" 
-        @atualizar="listaCategorias"
-        @excluir="deletaCategoria"
-      />
 
-      <Form
-        :show="mostrarModal"
-        title="Cadastrar Nova Categoria"
-        @fechar="fecharModal"
-        @salvar="novaCategoria"
-      />
+    <div class="p-6">
+    
+    <CategoryFilters 
+      @filtrar="aplicarFiltros" 
+    />
+
+    <CategoriaList 
+      :categorias="categorias" 
+      @atualizar="listaCategorias"
+      @excluir="deletaCategoria"
+    />
+
+    <Form
+      :show="mostrarModal"
+      title="Cadastrar Nova Categoria"
+      @fechar="fecharModal"
+      @salvar="novaCategoria"
+    />
     </div>
   </div>
 </template>
@@ -27,8 +33,9 @@
 
 import { ref, onMounted } from 'vue'
 import { useAlert }     from '@/utils/alert.js'
-import  CategoriaList   from '../components/categoria/Listagem.vue'
-import  Form            from '@/components/categoria/Form.vue'
+import CategoryFilters  from '@/components/categoria/CategoryFilters.vue'
+import  CategoriaList   from '@/components/categoria/CategoryListagem.vue'
+import  Form            from '@/components/categoria/CategoryForm.vue'
 import { getCategory, createCategory, deleteCategory } from '@/api/CategoryApi.js'
 
 const categorias = ref([])
@@ -76,16 +83,27 @@ const deletaCategoria = async (categoria) => {
 const listaCategorias = async (categoriaFiltro) => {
   try {
 
-    let params = {
-      name : categoriaFiltro ?? null
-    }
-
-    const response = await getCategory(params)
+    const response = await getCategory(categoriaFiltro)
     categorias.value = response.data.data.data
   } catch (e) {
     console.error('Erro ao carregar categorias:', e)
     error('Erro ao carregar categorias')
   }
+}
+
+const aplicarFiltros = (filtros = {}) => {
+
+  const filtro = {}
+  console.log(filtros.name.length);
+  
+  if (filtros.name.length >= 3) filtro.name = filtros.name
+  filtro.page = filtros.page || 1
+
+  //const temFiltros = Object.keys(filtro).some(key => key !== 'page')
+
+  console.log(filtro)
+ 
+  listaCategorias(filtro)
 }
 
 onMounted(() => {
